@@ -34,7 +34,7 @@ public class TaskService {
         TaskEntity existingTask = taskRepository.findById(id).orElseThrow();
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
-        existingTask.setCategory(task.getCategory());
+        existingTask.setPriority(task.getPriority());
         existingTask.setCompleted(task.isCompleted());
         existingTask.setUpdatedAt(LocalDateTime.now());
         if (task.isCompleted()) {
