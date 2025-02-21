@@ -48,8 +48,8 @@ public class TaskService {
     { 
     	taskRepository.deleteById(id); 
     }
-    public List<TaskEntity> getTasksByCategory(String category) {
-        return taskRepository.findByCategory(category);
+    public List<TaskEntity> getTasksByPriority(String priority) {
+        return taskRepository.findByPriority(priority);
     }
 
     public List<TaskEntity> getTasksByStatus(boolean completed) {
@@ -61,6 +61,9 @@ public class TaskService {
     }
     public long getTotalCompletedTasks() {
         return taskRepository.countByCompleted(true); // Count completed tasks
+    }
+    public List<TaskEntity> findByCompletedFalse() {
+        return taskRepository.findByCompletedFalse();
     }
 
     public long getTotalPendingTasks() {

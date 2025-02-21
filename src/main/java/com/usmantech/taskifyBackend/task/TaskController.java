@@ -24,6 +24,8 @@ import com.usmantech.taskifyBackend.exception.TaskAlreadyExistsException;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private TaskRepository repository;
 
     @PostMapping("/add-task")
     public ResponseEntity<?> createTask(@RequestBody TaskEntity task) 
@@ -53,12 +55,12 @@ public class TaskController {
     @DeleteMapping("/del-task/{id}")
     public void deleteTask(@PathVariable Long id) { taskService.deleteTask(id); }
 
-    @GetMapping("/category/{category}")
-    public List<TaskEntity> getTasksByCategory(@PathVariable String category) {
-        return taskService.getTasksByCategory(category);
+    @GetMapping("/priority/{priority}")
+    public List<TaskEntity> getTasksByPriority(@PathVariable String priority) {
+        return taskService.getTasksByPriority(priority);
     }
 
-    @GetMapping("/status/{completed}")
+    @GetMapping("/completed-tasks/{completed}")
     public List<TaskEntity> getTasksByStatus(@PathVariable boolean completed) {
         return taskService.getTasksByStatus(completed);
     }
@@ -66,6 +68,11 @@ public class TaskController {
     @GetMapping("/search")
     public List<TaskEntity> searchTasksByTitle(@RequestParam String title) {
         return taskService.searchTasksByTitle(title);
+    }
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalTasks() {
+        long totalTasks = repository.count();
+        return ResponseEntity.ok(totalTasks);
     }
     @GetMapping("/completed")
     public ResponseEntity<Long> getTotalCompletedTasks() {
@@ -77,6 +84,10 @@ public class TaskController {
     public ResponseEntity<Long> getTotalPendingTasks() {
         long count = taskService.getTotalPendingTasks();
         return ResponseEntity.ok(count);
+    }
+    @GetMapping("/pending-tasks")
+    public List<TaskEntity> findByCompletedFalse() {
+        return taskService.findByCompletedFalse();
     }
 }
 
